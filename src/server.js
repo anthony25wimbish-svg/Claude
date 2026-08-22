@@ -4,6 +4,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 import { hasCredentials } from './tradingview/session.js';
+import { runHealthCheck } from './tradingview/healthCheck.js';
 import { getQuotes } from './tradingview/quotes.js';
 import { getHistoricalData } from './tradingview/chart.js';
 import { getTechnicalAnalysis, runScreener } from './tradingview/scanner.js';
@@ -26,6 +27,25 @@ function errorResult(err) {
     isError: true,
   };
 }
+
+server.registerTool(
+  'tv_health_check',
+  {
+    title: 'Check TradingView connectivity and auth',
+    description:
+      'Verify the TradingView MCP server can reach TradingView: checks the session cookie/auth token (if ' +
+      'TRADINGVIEW_SESSION_ID is set), the live WebSocket quote feed, and the scanner, symbol-search, news, ' +
+      'and ideas HTTP endpoints. Use this to diagnose setup issues.',
+    inputSchema: {},
+  },
+  async () => {
+    try {
+      return jsonResult(await runHealthCheck());
+    } catch (err) {
+      return errorResult(err);
+    }
+  },
+);
 
 server.registerTool(
   'tv_get_quote',

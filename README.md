@@ -13,6 +13,7 @@ published, versioned API, TradingView can change them without notice.
 
 | Tool | Description |
 | --- | --- |
+| `tv_health_check` | Diagnose setup: checks auth, the WebSocket quote feed, and the scanner/search/news/ideas HTTP endpoints. |
 | `tv_get_quote` | Real-time quote (price, change, volume, bid/ask, market cap, P/E, ...) for one or more symbols. |
 | `tv_get_technical_analysis` | TradingView's buy/sell/neutral rating (overall, moving averages, oscillators) plus raw indicator values. |
 | `tv_get_historical_data` | Historical OHLCV candles for a symbol/interval. |
